@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
+import TreeUIDemo from '../components/TreeUIDemo';
 
 const CreateStoryPage = () => {
 
@@ -32,8 +33,6 @@ const CreateStoryPage = () => {
         e.preventDefault();
         if(checkHaveNextSection(sectionId)) return alert('This section already had next section!');
         
-        
-
         const newSection = {
             id: Math.random().toString(),
             title: '',
@@ -81,6 +80,7 @@ const CreateStoryPage = () => {
     }
 
     const changeOptionsOfSection = (prop, value, sectionId, optionIndex) => {
+        console.log('change');
         const i = getSectionById(sectionId);
         const section = story.sections[i];
         section.options.forEach((opt, index) => {
@@ -98,7 +98,7 @@ const CreateStoryPage = () => {
         const i = getSectionById(sectionId);
         const foundSection = story.sections[i];
 
-        if(foundSection.level === -1) return alert('This section is not a node in the story tree!');
+        // if(foundSection.level === -1) return alert('This section is not a node in the story tree!');
 
         if(foundSection.nextSectionId) {
             const index = getSectionById(foundSection.nextSectionId);
@@ -154,6 +154,10 @@ const CreateStoryPage = () => {
         const foundSection = story.sections[i];
         foundSection.options.splice(index, 1);
         setStory({ ...story });
+    } 
+
+    const saveStory = () =>  {
+        console.log(story);
     }
 
     const getRandomSections = () => {
@@ -266,12 +270,14 @@ const CreateStoryPage = () => {
                                                 </div>
                                                 <div className="col-5"> 
                                                     <select 
+                                                        onChange={(e) => changeOptionsOfSection('nextSectionId', e.target.value, section.id, index)}
                                                         placeholder="Choose which section to go next"
                                                         className="form-control">
-                                                            {randomSections.map(section => (
+                                                            <option value="" disabled>Choose linked section</option>
+                                                            {randomSections.map(sec => (
                                                                 <option 
-                                                                    key={section.id} 
-                                                                    value={section.id}>Section { section.index + 1 }</option>
+                                                                    key={sec.id} 
+                                                                    value={sec.id}>Section { sec.index + 1 }</option>
                                                             ))}
                                                         </select>
                                                 </div>
@@ -300,10 +306,19 @@ const CreateStoryPage = () => {
                         {/* Add random sections */}
                         { story.sections.length > 0 && (
                             <button 
-                                className="btn btn-success float-right" 
+                                className="btn btn-primary float-right ml-3" 
                                 onClick={handleAddSection}>Add more section</button>
                         ) }
+
+                         {/* Save story */}
+                        <button 
+                            className="btn btn-success float-right" 
+                            onClick={saveStory}>Save</button>
                     </div>
+                
+                    {/* <div className="col-4">
+                        <TreeUIDemo />
+                    </div> */}
                 </div>
             </div>
         </MainLayout>

@@ -6,7 +6,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 const MainLayout = (props) => {
     return (
         <div>
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="primary" expand="lg">
                 <Navbar.Brand href="#home">StoryArt</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -19,7 +19,6 @@ const MainLayout = (props) => {
                         <NavDropdown.Item href="#action/3.2">Register</NavDropdown.Item>
                     </NavDropdown>
                 </Navbar.Collapse>
-              
             </Navbar>
             <div>
                 { props.children }
